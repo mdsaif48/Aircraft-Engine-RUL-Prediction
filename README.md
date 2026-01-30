@@ -20,6 +20,7 @@ The challenge lies in learning degradation patterns from noisy sensor measuremen
 
 # Result 
 RMSE value : 21.4592
+https://github.com/mdsaif48/Aircraft-Engine-RUL-Prediction/blob/e352797e76d5a1a310ccb209e7fb12b4f2beaafd/RUL_visuals/Pred_vs_Actual_RUL.pdf
 
 # Limitations
 • The analysis is based on simulated run-to-failure engine data, which may not fully capture real-world operational variability.
