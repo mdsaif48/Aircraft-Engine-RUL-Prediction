@@ -1,0 +1,43 @@
+data = trainSets{1};  % FD001 table
+
+% Identify your columns
+unitCol  = 'Unit';       % engine ID column
+cycleCol = 'Cycle';      % cycle count column, could be 'Cycle' or check exact name
+
+% Make sure this matches your table
+data.Properties.VariableNames  % run this to confirm
+
+% Compute RUL per engine
+units = unique(data.(unitCol));
+rul = zeros(height(data),1);
+
+for i = 1:length(units)
+    idx = data.(unitCol) == units(i);
+    rul(idx) = max(data.(cycleCol)(idx)) - data.(cycleCol)(idx);
+end
+
+% Cap RUL
+RUL_cap = 125;
+rul = min(rul, RUL_cap);
+
+% Append to table
+data.RUL = rul;
+
+% Quick check
+head(data)
+% Choose your features (operational + sensor readings)
+featureCols1 = {'OP1','OP2', ...
+        'S1','S2','S3','S4','S5','S6','S7','S8','S9','S10', ...
+        'S11','S12','S13','S14','S15','S16','S17','S18','S19','S20','S21'};
+
+% Extract feature matrix
+X = data{:, featureCols1};
+rulVec = data.RUL;
+
+% Compute correlation between each feature and RUL
+corrVals = corr(X, rulVec);
+
+% Heatmap plot
+figure;
+heatmap(featureCols1, {'RUL'}, corrVals', 'Colormap', parula, 'ColorLimits', [-1 1]);
+title('Correlation of Sensors and OP settings with RUL');
