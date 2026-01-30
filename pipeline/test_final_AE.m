@@ -1,4 +1,4 @@
-%% 1️⃣ Load Test Data
+
 dataPath = 'C:\Users\saif\OneDrive\Documents\Desktop\MIN_PROJECT\6. Turbofan Engine Degradation Simulation Data Set\CMAPSSData';
 testFile = 'test_FD001.txt';
 rulFile  = 'RUL_FD001.txt';
@@ -22,7 +22,6 @@ XTest = data{:, featureCols};    % Nx23 numeric array
 % Standardize
 XTest = (XTest - muNum) ./ sigmaNum;  % Nx23 - 1x23
 
-%% 3️⃣ Predict using Random Forest
 yPredAll = predict(rfModel, XTest);  % TreeBagger output is cell of strings
 yPredAll = str2double(yPredAll);
 
@@ -34,13 +33,12 @@ for j = 1:length(engines)
     yPred(j) = mean(yPredAll(idx));
 end
 
-%% 4️⃣ Metrics
+
 rmse = sqrt(mean((yTrue - yPred).^2));
 r2   = 1 - sum((yTrue - yPred).^2)/sum((yTrue - mean(yTrue)).^2);
 fprintf('Test RMSE: %.2f\n', rmse);
 fprintf('Test R^2: %.2f\n', r2);
 
-%% 5️⃣ Plot Predicted vs Actual RUL
 figure('Color','w','Position',[100 100 1200 800])
 ax = gca;
 ax.Color = 'w';
@@ -64,3 +62,4 @@ text(max(yTrue)*0.6, max(yTrue)*0.1, sprintf('RMSE = %.2f\nR^2 = %.2f', rmse, r2
 % Save High-Resolution Figures
 exportgraphics(gcf,'Test_Pred_vs_Actual_RUL.pdf','ContentType','vector')
 exportgraphics(gcf,'Test_Pred_vs_Actual_RUL.png','Resolution',300)
+
