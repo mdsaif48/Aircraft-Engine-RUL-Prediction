@@ -19,7 +19,7 @@ for i = 1:4
     test  = readmatrix(fullfile(dataPath, testFiles(i)));
     rul   = readmatrix(fullfile(dataPath, rulFiles(i)));
 
-    % Remove extra columns ONLY if they exist
+   
     if size(train,2) > 26
         train(:,27:end) = [];
     end
@@ -32,3 +32,4 @@ for i = 1:4
     rulSets{i}   = rul(:);
 end
 end
+
